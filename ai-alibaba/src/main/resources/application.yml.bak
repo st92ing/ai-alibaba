@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: zlt-spring-ai-alibaba
+  ai:
+    dashscope:
+      # 配置在阿里云百炼里申请的api-key
+      api-key: sk-5e75061842b04e9f865ca3efc398a683
+  main:
+    allow-circular-references: true

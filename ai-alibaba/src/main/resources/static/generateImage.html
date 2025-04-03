@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文生图助手</title>
+    <!-- 引入依赖 -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f5;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .input-area {
+            margin-bottom: 20px;
+        }
+
+        #image-prompt-box {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            resize: none;
+            min-height: 44px;
+            max-height: 200px;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: #1a73e8;
+            color: white;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        #image-container {
+            margin-top: 20px;
+        }
+
+        #image-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* 对话框样式 */
+        .dialog {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .dialog-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .dialog-content h2 {
+            margin-bottom: 20px;
+        }
+
+        .dialog-content .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>文生图助手</h1>
+        <div class="input-area">
+            <textarea id="image-prompt-box" placeholder="输入文生图提示..." rows="1"></textarea>
+            <button id="generate-image-btn">生成图片</button>
+        </div>
+    </div>
+
+    <!-- 对话框 -->
+    <div class="dialog" id="image-dialog">
+        <div class="dialog-content">
+            <h2>生成的图片</h2>
+            <button class="close-btn" id="close-dialog-btn">&times;</button>
+            <div id="image-container"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // 新增生成图片的处理逻辑
+            $('#generate-image-btn').click(function() {
+                const prompt = $('#image-prompt-box').val().trim();
+                if (!prompt) return;
+
+                $.ajax({
+                    url: 'http://localhost:8080/chat/generate-image',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ "prompt": prompt }),
+                    success: function(data) {
+                        const imageUrl = URL.createObjectURL(new Blob([data]));
+                        const img = $('<img>').attr('src', imageUrl).css({
+                            'max-width': '100%',
+                            'height': 'auto',
+                            'margin-top': '20px'
+                        });
+                        $('#image-container').empty().append(img);
+                        $('#image-dialog').show();
+                    },
+                    error: function(error) {
+                        console.error('生成图片失败:', error);
+                        $('#image-container').empty().text('生成图片失败，请重试');
+                        $('#image-dialog').show();
+                    }
+                });
+            });
+
+            // 关闭对话框
+            $('#close-dialog-btn').click(function() {
+                $('#image-dialog').hide();
+            });
+        });
+    </script>
+</body>
+</html>
