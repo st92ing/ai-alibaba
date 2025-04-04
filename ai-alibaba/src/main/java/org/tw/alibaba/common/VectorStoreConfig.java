@@ -13,7 +13,7 @@ import org.springframework.core.io.Resource;
 /**
  *@Description //TODO
  *@author taw18874
- *@date 2025/4/3 14:27
+ *@date 2025/4/3 18:30
  */
 @Configuration
 public class VectorStoreConfig {

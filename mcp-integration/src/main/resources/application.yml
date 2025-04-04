@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: mcp-integration
+
+# MCP配置
+mcp:
+  server:
+    url: http://mcp-server.example.com  # MCP服务器地址
+  app:
+    key: your-app-key     # 您的应用Key
+    secret: your-secret   # 您的应用Secret
+
+# 日志配置
+logging:
+  level:
+    com.example.mcp: DEBUG 
