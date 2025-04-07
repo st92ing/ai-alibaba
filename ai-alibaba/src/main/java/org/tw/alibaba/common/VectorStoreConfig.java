@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 /**
- *@Description //TODO
+ *@Description /读取配置
  *@author taw18874
  *@date 2025/4/3 18:30
  */

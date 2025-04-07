@@ -19,9 +19,3 @@
 - 智能对话助手(流式对话)：http://localhost:8080/streamChat.html
 
 - 智能翻译助手：http://localhost:8080/translate.html
-
-## 页面清单1
-- 智能对话助手(模板对话)：http://localhost:8080
-- 智能对话助手(流式对话)：http://localhost:8080/streamChat.html
-
-- 智能翻译助手：http://localhost:8080/translate.html
